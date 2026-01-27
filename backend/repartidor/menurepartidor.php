@@ -1,5 +1,5 @@
 <?php
-require_once '../connection/connection.php';
+require_once '/connection/connection.php';
 header('Content-Type: application/json');
 
 $ci = $_GET['ci'] ?? null;

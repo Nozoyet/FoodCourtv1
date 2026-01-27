@@ -1,6 +1,6 @@
 <?php
 $host = 'localhost';
-$db = 'foodcourtv1';
+$db = 'foodcourtv2';
 $user = 'root';
 $pass = 'mipmopmap26PanQ';
 try {

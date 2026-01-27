@@ -2,7 +2,7 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 0);
 
-require_once '../connection/connection.php';
+require_once '/connection/connection.php';
 header('Content-Type: application/json');
 
 $action = $_GET['action'] ?? '';
