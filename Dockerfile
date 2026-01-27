@@ -1,27 +1,27 @@
-# 1️⃣ Base PHP + Apache
-FROM php:8.2-apache
+# 1️⃣ Base estable PHP 8.2 + Apache
+FROM php:8.2-apache-bullseye
 
-# 2️⃣ Desactivar mpm_event y activar prefork (requisito PHP)
+# 2️⃣ Forzar MPM prefork y activar mod_rewrite
 RUN a2dismod mpm_event \
- && a2enmod mpm_prefork
+ && a2enmod mpm_prefork rewrite
 
-# 3️⃣ Instalar extensiones necesarias
+# 3️⃣ Instalar extensiones necesarias para PHP
 RUN docker-php-ext-install pdo pdo_mysql
 
-# 4️⃣ Copiar todo el proyecto al contenedor
-COPY . /var/www/html/
-
-# 5️⃣ Configurar Apache para que sirva desde public/
+# 4️⃣ Configurar Apache para servir desde public/
 ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
 
 RUN sed -ri 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf \
  && sed -ri 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
 
-# 6️⃣ Dar permisos correctos a www-data
+# 5️⃣ Copiar todo el proyecto
+COPY . /var/www/html/
+
+# 6️⃣ Dar permisos correctos a Apache
 RUN chown -R www-data:www-data /var/www/html
 
-# 7️⃣ Exponer el puerto 80
+# 7️⃣ Exponer puerto web
 EXPOSE 80
 
-# 8️⃣ Comando por defecto (ya viene con Apache)
+# 8️⃣ Comando por defecto (arranca Apache)
 CMD ["apache2-foreground"]
